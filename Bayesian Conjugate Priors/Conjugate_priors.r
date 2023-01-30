@@ -57,13 +57,12 @@ plot(dpareto(y_grid, alpha, beta), ylim=c(0.01, 0.8), xlim=c(500, 2500)) # Limit
 
 # La expresión para el EMV de theta
 emv_theta <- 1/mean(datos)
-emv_theta
 
 # Verificamos que se aproxima al valor que dimos al principio
 # Parámetros de la distribución a posteriori
 apost <- alpha + length(datos)
 bpost <- beta + length(datos)*mean(datos)
-media_post <- (apost)/(bpost)
+media_post <- apost/bpost
 
 # Terminamos con un gráfico de las funciones
 vero <- dgamma(y_grid, length(datos) + 1, sum(datos))
@@ -82,10 +81,14 @@ hist(datos ,freq=F, xlab='Datos', ylab='Densidad', main='Distribución Predictiv
 lines(rejilla_pred, fy_pred, col='red')
 
 # Es posible combinar varios mediante una mixtura de distribuciones Gamma debidamente ponderadas
-k <- 2 # Número de combinaciones para nuestro a priori
-w <- c(0.65, 0.35) # Pesos inciales de los a prioris según el investigador
-a <- c(5, 6) # Vector de parámetros alpha
-b <- c(4, 3) # Vector de parámetros beta
+# Número de combinaciones para nuestro a priori
+k <- 2 
+# Pesos inciales de los a prioris según el investigador
+w <- c(0.65, 0.35)
+# Vector de parámetros alpha
+a <- c(5, 6) 
+# Vector de parámetros beta
+b <- c(4, 3) 
 theta <- 6
 
 # Expresamos la mixtura según hemos concluido en el proyecto
@@ -95,7 +98,8 @@ apost <- a + length(datos)
 bpost <- b + length(datos)*mean(datos)
 expresion <- ((b^a)*gamma(apost))/((gamma(a)*(bpost)^apost))
 wpost <- w*expresion
-wpost <- wpost/sum(wpost) # Normalizamos los pesos para que sumen a 1
+# Normalizamos los pesos para que sumen a 1
+wpost <- wpost/sum(wpost) 
 
 # Graficamos las nuevas distribuciones al introducir la mixtura 
 thetagrid <- seq(0, 10, 0.001)
